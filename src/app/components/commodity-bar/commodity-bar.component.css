@@ -1,0 +1,106 @@
+app-commodity-bar{
+  padding: 0;
+  margin: 0;
+}
+
+div#game-overlay-wrapper{
+  display: block;
+  width: 960px;
+  min-width: 960px;
+  margin-left: 100px;
+  margin-right: 100px;
+  padding: 0;
+}
+
+div#stats-wrapper{
+  display: flex;
+}
+
+.property-value{
+  user-select: none;
+  display: inline-flex;
+  font-size: 1.25em;
+  vertical-align: top;
+}
+
+.property-value-divider{
+  opacity: 0.7;
+}
+
+.property-value-max{
+  opacity: 0.7;
+}
+
+div.vertical-spacer{
+  display: inline;
+  width: 5px;
+  margin-left: 3px;
+  margin-right: 3px;
+  min-height: 1px;
+  background-color: #00000050;
+}
+
+div#inventory-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  position: fixed;
+  bottom: 70px;
+  left:15%;
+  right: 15%;
+  max-width: 755px;
+  transform: translateX(0%);
+  background-color: azure;
+  opacity: 0.75;
+}
+
+svg, object {
+  pointer-events: none;
+}
+
+button{
+  margin: 0;
+  border: 0;
+}
+
+button.button-inventories-header{
+  padding: 5px;
+}
+
+button:hover{
+  opacity: 0.6;
+}
+
+button:active{
+  opacity: 0.6;
+}
+
+div#inventory-slots-wrapper{
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width:100%;
+  margin: 0;
+  background-color: black;
+}
+
+div.flex-item-wrapper {
+  background-color: #f1f1f1;
+  width: 70px;
+  height: 70px;
+  margin-top: 5px;
+  margin-left: 5px;
+  text-align: center;
+  line-height: 16px;
+}
+
+button.flex-item {
+  font-size: 0.8em;
+}
+
+.smaller{
+  font-size: 0.9em;
+}

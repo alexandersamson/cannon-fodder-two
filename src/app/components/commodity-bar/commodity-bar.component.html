@@ -1,0 +1,98 @@
+<div id="game-overlay-wrapper">
+  <div id="stats-wrapper">
+    <div id="stats-life">
+      <ng-template [ngIf]="this.selectedEntity">
+        <div>
+          <span><object data="assets/icons/skoll/hearts.svg" width="16" height="16"> </object></span>
+          <span class="property-value">{{selectedEntity.lifeProperties.hp | number: '1.0-0'}}</span>
+          <span class="property-value property-value-divider">/</span>
+          <span class="property-value property-value-max">{{selectedEntity.lifeProperties.hpMax | number: '1.0-0'}}</span>
+        </div>
+        <div>
+          <span><object data="assets/icons/sbed/shield.svg" width="16" height="16"> </object></span>
+          <span class="property-value">{{selectedEntity.lifeProperties.sp | number: '1.0-0'}}</span>
+          <span class="property-value property-value-divider">/</span>
+          <span class="property-value property-value-max">{{selectedEntity.lifeProperties.spMax | number: '1.0-0'}}</span>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div id="stats-xp">
+      <ng-template [ngIf]="this.selectedEntity">
+        <div>
+          <span><object data="assets/icons/delapouite/star-formation.svg" width="16" height="16"> </object></span>
+          <span class="property-value">{{selectedEntity.level | number: '1.0-0'}}</span>
+        </div>
+        <div>
+          <span><object data="assets/icons/delapouite/progression.svg" width="16" height="16"> </object></span>
+          <span class="property-value">{{selectedEntity.xp | number: '1.0-0'}}</span>
+          <span class="property-value property-value-divider">/</span>
+          <span class="property-value property-value-max">{{selectedEntity.xpMax | number: '1.0-0'}}</span>
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div id="stats-weapon">
+      <ng-template [ngIf]="this.selectedWeapon">
+        <div [matTooltip]="getWeaponTooltip(selectedWeapon)" matTooltipClass="allow-cr">
+          <span><object data="assets/icons/skoll/desert-eagle.svg" width="16" height="16"> </object></span>
+          <span class="property-value">{{selectedWeapon.name ?? ""}}</span>
+          <span class="property-value property-value-divider">(</span>
+          <span class="property-value ">{{getDurability()}}</span>
+          <span class="property-value property-value-divider">%</span>
+          <span class="property-value property-value-divider">)</span>
+        </div>
+        <ng-template [ngIf]="this.selectedMag && this.selectedAmmo">
+          <div matTooltip="{{selectedAmmo.name}} | Click to reload!" (click)="actionReload(selectedWeapon)">
+            <span><object data="assets/icons/lorc/bullets.svg" width="16" height="16"> </object></span>
+            <ng-template [ngIf]="selectedWeapon.loadTimeLeft > 0">
+              <span class="property-value">Reloading...</span>
+            </ng-template>
+            <ng-template [ngIf]="selectedWeapon.loadTimeLeft === 0">
+              <span class="property-value">{{selectedAmmo.amount ?? 0 | number: '1.0-0'}}</span>
+              <span class="property-value property-value-divider">/</span>
+              <span class="property-value property-value-max">{{selectedMag.maxItemStackSize ?? 0 | number: '1.0-0'}}</span>
+              <span class="property-value">&nbsp;</span>
+              <span class="property-value smaller">{{selectedAmmo.shortName ?? selectedAmmo.name}}</span>
+
+            </ng-template>
+          </div>
+        </ng-template>
+      </ng-template>
+    </div>
+
+    <div class="vertical-spacer"></div>
+
+    <div id="inventory-stats">
+      <div>
+        <ng-template [ngIf]="this.selectedEntity">
+        <button id="open-inventory-button" (click)="openInventory(selectedEntity)"><object data="assets/icons/lorc/knapsack.svg" width="38" height="38"></object></button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+
+  <ng-template [ngIf]="inventoryOpen">
+    <div id="inventory-wrapper">
+      INVENTORY
+      <div id="inventory-slots-wrapper">
+        <div *ngFor="let slotItem of getPlayerInventory(this.inventoryIndexSelected).inventoryItems;  index as itemSlotIndex;" id="inventory;unit-inventory-player;{{this.inventoryIndexSelected}};{{itemSlotIndex}}" [draggable]="!slotItem.item.isAvailableSlot" (dragstart)="onDragstart($event)" (dragover)="onDragover($event)" (drop)="onDrop($event)" [ngStyle]="{'opacity': slotItem.item.isAvailableSlot ? 0.3 : 1}"  class="flex-item-wrapper">
+          <button class="flex-item" (click)="onClickOwnInventoryItem($event)" name="{{itemSlotIndex}}">
+            {{slotItem.item.shortName ?? slotItem.item.name}}<br>{{slotItem.item.amount}}
+          </button>
+        </div>
+      </div>
+      <div>
+        <ng-template [ngIf]="this.selectedEntity">
+          <span  *ngFor="let inventory of getEntityInventories(this.selectedEntity); index as inventoryIndex;">
+            <button (dragover)="onBagSelectorDragover($event)" (click)="openInventoryBag(inventoryIndex)" id="button-select-inventory-bag-{{inventoryIndex}}" name="{{inventoryIndex}}" class="button-inventories-header">{{inventory.name}}</button>
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </ng-template>
+</div>
